@@ -32,7 +32,6 @@ function Page() {
 
   const handleSubmit = async (values: z.infer<typeof authSchema>) => {
     await login(values);
-    console.log(values);
   };
 
   return (

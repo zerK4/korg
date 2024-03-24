@@ -10,6 +10,6 @@ export const expenseSchema = z.object({
   amount: z.string().min(1, {
     message: "Valoarea trebuie sa fie de cel putin 1 caracter.",
   }),
-  date: z.string().optional(),
+  date: z.date(),
   from: z.string().min(1),
 });

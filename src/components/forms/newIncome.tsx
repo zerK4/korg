@@ -2,8 +2,7 @@
 
 import { newIncome } from "@/app/actions/incomeActions";
 import { Spinner } from "@/components/Spinner";
-import { AddButton, Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
@@ -22,11 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -43,19 +37,17 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { BudgetType } from "@/db/schema";
-import { cn } from "@/lib/utils";
 import { incomeSchema } from "@/schema/incomeSchema";
 import { useFinancial } from "@/store/useFinancial";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SelectValue } from "@radix-ui/react-select";
-import { CalendarIcon, PlusIcon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 import { z } from "zod";
-import { CommandItem } from "../ui/command";
 import { useCommands } from "@/store/useCommands";
+import { FormCalendar } from "./formCalendar";
 
 function NewIncome({ children = null }: { children?: React.ReactNode }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -120,10 +112,8 @@ const IncomeForm = ({ budgetTypes }: { budgetTypes: BudgetType[] }) => {
     },
   });
 
-  console.log(budgetTypes);
   const handleSubmit = async (values: z.infer<typeof incomeSchema>) => {
     const promise = newIncome(values);
-    console.log(values);
     toast.promise(promise, {
       loading: (
         <div className='flex items-center gap-2'>
@@ -177,37 +167,7 @@ const IncomeForm = ({ budgetTypes }: { budgetTypes: BudgetType[] }) => {
                   ) : item === "details" ? (
                     <Textarea {...field} />
                   ) : item === "date" ? (
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl className='w-full'>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              field.value
-                            ) : (
-                              <span>Selecteaza o data</span>
-                            )}
-                            <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0' align='start'>
-                        <Calendar
-                          mode='single'
-                          selected={field.value}
-                          onSelect={(e) =>
-                            field.onChange(e?.toLocaleDateString())
-                          }
-                          disabled={(date) => date > new Date()}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <FormCalendar field={field} />
                   ) : (
                     <Input {...field} />
                   )}

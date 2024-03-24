@@ -7,7 +7,7 @@ export const incomeSchema = z.object({
   value: z.string().min(1, {
     message: "Un venit trebuie sa aiba cel putin 1 caracter.",
   }),
-  date: z.string(),
+  date: z.date(),
   type: z.string().min(1, {
     message: "Alege metoda in care ai fost platit.",
   }),

@@ -18,8 +18,6 @@ export async function login({
   email: string;
   name?: string | null | undefined;
 }): Promise<ActionResult> {
-  console.log(email, name);
-
   if (email === null) {
     return {
       status: 401,

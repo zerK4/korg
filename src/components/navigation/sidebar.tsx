@@ -87,29 +87,49 @@ const MobileNavDrawer = () => {
           <NewCategory>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
+              className='rounded-xl h-14 flex items-center justify-normal gap-4'
+              variant={"ghost"}
             >
-              Adauga o categorie
+              <span>
+                <Plus />
+              </span>
+              <span>Adauga o categorie</span>
             </Button>
           </NewCategory>
           <NewIncome>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
+              className='rounded-xl h-14 flex items-center justify-normal gap-4'
+              variant={"ghost"}
             >
-              Adauga un venit
+              <span>
+                <Plus />
+              </span>
+              <span>Adauga un venit</span>
             </Button>
           </NewIncome>
           <NewExpense>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
+              className='rounded-xl h-14 flex items-center justify-normal gap-4'
+              variant={"ghost"}
             >
-              Adauga o cheltuiala
+              <span>
+                <Plus />
+              </span>
+              <span>Adauga o cheltuiala</span>
             </Button>
           </NewExpense>
           <NewBudgetType>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
+              className='rounded-xl h-14 flex items-center justify-normal gap-4'
+              variant={"ghost"}
             >
-              Adauga un nou tip de venit
+              <span>
+                <Plus />
+              </span>
+              <span>Adauga un nou tip de venit</span>
             </Button>
           </NewBudgetType>
         </div>

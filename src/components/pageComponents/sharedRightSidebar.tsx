@@ -35,13 +35,14 @@ function SharedRightSidebar({ children }: { children?: React.ReactNode }) {
       tl.add({
         targets: sharedRef.current,
         right: isOpen ? ["-150vw", 0] : [0, "-150vw"],
+        opacity: isOpen ? [0, 1] : 0,
         duration: 1000,
         easing: "easeInOutExpo",
       });
     } else {
       tl.add({
         targets: sharedRef.current,
-        right: 0,
+        right: ["-150vw", 0],
         duration: 1000,
         easing: "easeInOutExpo",
       });
@@ -52,7 +53,9 @@ function SharedRightSidebar({ children }: { children?: React.ReactNode }) {
     <div className='relative'>
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className='absolute -left-[1rem] flex md:hidden p-0 h-10 w-20 justify-start px-1 hover:-left-[2rem] ease-in-out duration-300'
+        className={`absolute -left-[1rem] flex md:hidden p-0 h-10 w-20 justify-start px-1 hover:-left-[2rem] ease-in-out duration-300 ${
+          isMobile ? "-right-[150vw]" : ""
+        }`}
       >
         <ChevronLeft size={16} />
       </Button>

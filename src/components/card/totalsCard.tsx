@@ -29,7 +29,6 @@ function TotalsCard({
   const cardRef = useRef(null);
 
   useEffect(() => {
-    console.log(totalBudgetTypes);
     anime({
       targets: cardRef.current,
       opacity: [0, 1],

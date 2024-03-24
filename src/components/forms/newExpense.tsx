@@ -1,9 +1,8 @@
 "use client";
 
-import { getAllCategories, newCategory } from "@/app/actions/categoryActions";
+import { getAllCategories } from "@/app/actions/categoryActions";
 import { newExpense } from "@/app/actions/expenseActions";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Drawer,
   DrawerContent,
@@ -22,11 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -43,17 +37,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { CategoryType } from "@/db/schema";
-import { cn } from "@/lib/utils";
 import { expenseSchema } from "@/schema/expenseSchema";
 import { useCommands } from "@/store/useCommands";
 import { useFinancial } from "@/store/useFinancial";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, Loader, PlusIcon } from "lucide-react";
+import { Loader } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 import { z } from "zod";
+import { FormCalendar } from "./formCalendar";
 
 function NewExpense({ children = null }: { children?: React.ReactNode }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -110,7 +104,6 @@ function NewExpense({ children = null }: { children?: React.ReactNode }) {
 
 export default NewExpense;
 
-const buttonTitle = "Adauga o cheltuiala";
 const title = (
   <span className='text-xl font-semibold'>Adauga o Cheltuiala</span>
 );
@@ -128,7 +121,7 @@ const NewExpenseForm = ({
       name: "",
       amount: "",
       category: "",
-      date: new Date().toLocaleDateString(),
+      date: new Date(),
     },
   });
 
@@ -151,7 +144,7 @@ const NewExpenseForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className='space-y-2 w-full'
+        className='space-y-3 w-full'
       >
         <FormField
           control={form.control}
@@ -245,39 +238,7 @@ const NewExpenseForm = ({
             <FormItem>
               <FormLabel>Data</FormLabel>
               <FormControl className='flex items-center gap-2'>
-                <div>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl className='w-full'>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            field.value
-                          ) : (
-                            <span>Selecteaza o data</span>
-                          )}
-                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className='w-auto p-0' align='start'>
-                      <Calendar
-                        mode='single'
-                        selected={field.value as any}
-                        onSelect={(e) =>
-                          field.onChange(e?.toLocaleDateString())
-                        }
-                        // disabled={(date) => date > new Date()}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <FormCalendar field={field} />
               </FormControl>
               <FormMessage />
             </FormItem>

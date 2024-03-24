@@ -39,7 +39,7 @@ export async function newExpense(values: z.infer<typeof expenseSchema>) {
         name: values.name,
         categoryId: values.category,
         amount: Number(values.amount),
-        date: values.date,
+        date: values.date.toLocaleDateString(),
         id: v4(),
         userId: user.id,
       })
