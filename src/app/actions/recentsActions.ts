@@ -16,7 +16,7 @@ export async function getRecents() {
 
     const recents = await db.query.recentAdded.findMany({
       where: eq(recentAdded.userId, user.id),
-      orderBy: desc(recentAdded.date),
+      orderBy: desc(recentAdded.id),
     });
 
     return recents;

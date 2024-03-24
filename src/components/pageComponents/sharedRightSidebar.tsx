@@ -10,17 +10,13 @@ import { Separator } from "../ui/separator";
 import { ChevronLeft, XIcon } from "lucide-react";
 import { RecentAddedType } from "@/db/schema";
 import { useFinancial } from "@/store/useFinancial";
+import AnalyticsCalendar from "../analyticsCalendar";
 
 function SharedRightSidebar({ children }: { children?: React.ReactNode }) {
-  const { recentAdded } = useFinancial();
-  const [recents, setRecents] = useState<RecentAddedType[] | null>(null);
+  const { recentAdded, currentExpenses, currentIncomes } = useFinancial();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const sharedRef = useRef(null);
-
-  useEffect(() => {
-    setRecents(recentAdded);
-  }, [recentAdded]);
 
   useEffect(() => {
     anime({
@@ -74,18 +70,26 @@ function SharedRightSidebar({ children }: { children?: React.ReactNode }) {
             <XIcon size={16} />
           </Button>
         </div>
-        <Calendar />
-        {recents && recents.length > 0 && (
+        <AnalyticsCalendar
+          noBorder
+          data={{
+            currentExpenses: currentExpenses,
+            currentIncomes: currentIncomes,
+          }}
+        />
+        {recentAdded && (
           <Card className='py-2 dark:bg-black/40'>
             <CardHeader>
               <span className='text-xl'>Adaugate recent</span>
             </CardHeader>
             <Separator />
             <div className='flex flex-col px-4'>
-              {recents?.splice(0, 3).map((item, i) => (
+              {recentAdded?.slice(0, 3).map((item, i) => (
                 <div
                   key={i}
-                  className='p-2 flex flex-col items-end border-b last:border-b-0'
+                  className={`p-2 flex flex-col items-end ${
+                    i === 0 ? "border-b" : "last:border-b-0"
+                  }`}
                 >
                   <span>{item.name}</span>
                   <div className='flex justify-between w-full'>

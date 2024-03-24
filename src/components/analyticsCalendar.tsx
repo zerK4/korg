@@ -1,31 +1,45 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Calendar } from "./ui/calendar";
 import { ExpenseType, IncomeType } from "@/db/schema";
 import { DayProps } from "react-day-picker";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import anime from "animejs";
+import { cn } from "@/lib/utils";
 
 function AnalyticsCalendar({
   data,
+  noBorder = false,
 }: {
   data: {
-    currentExpenses: ExpenseType[] | undefined;
-    currentIncomes: IncomeType[] | undefined;
+    currentExpenses: ExpenseType[] | null;
+    currentIncomes: IncomeType[] | null;
   };
+  noBorder?: boolean;
 }) {
-  const [currentExpenses, setCurrentExpenses] = useState<
-    ExpenseType[] | undefined
-  >([]);
-  const [currentIncomes, setCurrentIncomes] = useState<
-    IncomeType[] | undefined
-  >([]);
+  const sharedRef = useRef(null);
+  const [currentExpenses, setCurrentExpenses] = useState<ExpenseType[] | null>(
+    []
+  );
+  const [currentIncomes, setCurrentIncomes] = useState<IncomeType[] | null>([]);
 
   useEffect(() => {
     setCurrentExpenses(data.currentExpenses);
     setCurrentIncomes(data.currentIncomes);
   }, [data]);
+
+  useEffect(() => {
+    anime({
+      targets: sharedRef.current,
+      scale: [0, 1],
+      opacity: [0, 1],
+      translateY: [40, 0],
+      duration: 1000,
+      easing: "easeInOutExpo",
+    });
+  }, []);
 
   const renderDay = (day: DayProps) => {
     const isCurrentMonth = day?.date?.getMonth() === new Date().getMonth();
@@ -62,7 +76,13 @@ function AnalyticsCalendar({
     );
   };
   return (
-    <div className='flex flex-1 basis-96 justify-center rounded-xl border'>
+    <div
+      ref={sharedRef}
+      className={cn("flex flex-1 basis-96 justify-center rounded-xl h-fit", {
+        "border": true,
+        "border-none": noBorder,
+      })}
+    >
       <Calendar components={{ Day: renderDay }} />
     </div>
   );

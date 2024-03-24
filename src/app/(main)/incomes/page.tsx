@@ -34,18 +34,16 @@ async function page() {
   });
 
   return (
-    <div className='p-2 w-full'>
-      <div className='flex gap-2 w-full'>
-        <div className='w-full grid grid-cols-1 h-fit'>
-          <DataTable columns={columns} data={theIncomes} />
-        </div>
-        <div className='w-fit'>
-          <SharedRightSidebar>
-            <NewIncome>
-              <AddButton className='w-full' />
-            </NewIncome>
-          </SharedRightSidebar>
-        </div>
+    <div className='p-2 flex gap-2 w-full'>
+      <div className='w-full grid grid-cols-1 h-fit'>
+        <DataTable columns={columns} data={theIncomes} />
+      </div>
+      <div className='w-fit'>
+        <SharedRightSidebar>
+          <NewIncome>
+            <AddButton className='w-full' />
+          </NewIncome>
+        </SharedRightSidebar>
       </div>
     </div>
   );

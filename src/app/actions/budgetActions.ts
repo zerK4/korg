@@ -84,3 +84,15 @@ export async function updateBudget({
     throw error;
   }
 }
+
+export async function deleteBudget(id: string) {
+  try {
+    await db.delete(recentAdded).where(eq(recentAdded.thingId, id));
+    await db.delete(budget).where(eq(budget.id, id));
+    revalidatePath("/income");
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+}

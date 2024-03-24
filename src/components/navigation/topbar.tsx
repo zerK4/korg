@@ -13,9 +13,9 @@ import { PersonIcon } from "@radix-ui/react-icons";
 
 function Topbar() {
   return (
-    <div className='sticky top-0 h-[4.05rem] flex items-center justify-between border-b w-full px-2'>
+    <div className='sticky top-0 h-[4.05rem] flex items-center justify-between border-b w-full px-2 z-50 bg-background'>
       <div className='text-sm text-zinc-500'>
-        Apasa cmd + k pentru comezi rapide.
+        {/* Apasa cmd + k pentru comezi rapide. */}
       </div>
       <div className='flex items-center gap-4'>
         <NotificationDropdown />

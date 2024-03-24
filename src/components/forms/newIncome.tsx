@@ -64,12 +64,7 @@ function NewIncome({ children = null }: { children?: React.ReactNode }) {
 
   if (isMobile) {
     return (
-      <Drawer
-        open={openNewIncome}
-        onOpenChange={() =>
-          useCommands.setState({ openNewIncome: !openNewIncome })
-        }
-      >
+      <Drawer>
         {children && <DrawerTrigger asChild>{children}</DrawerTrigger>}
         <DrawerContent>
           <DrawerHeader>

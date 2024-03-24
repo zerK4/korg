@@ -67,6 +67,7 @@ export async function removeCategory(id: string) {
       redirect("/login");
     }
 
+    await db.delete(recentAdded).where(eq(recentAdded.thingId, id));
     await db
       .delete(categories)
       .where(and(eq(categories.id, id), eq(categories.userId, user.id)));

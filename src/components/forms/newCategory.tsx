@@ -21,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { categorySchema } from "@/schema/categorySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, PlusIcon } from "lucide-react";
+import { Loader } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -44,12 +44,7 @@ function NewCategory({ children = null }: { children?: React.ReactNode }) {
 
   if (isMobile) {
     return (
-      <Drawer
-        open={openCategory}
-        onOpenChange={() =>
-          useCommands.setState({ openCategory: !openCategory })
-        }
-      >
+      <Drawer>
         {children && <DrawerTrigger asChild>{children}</DrawerTrigger>}
         <DrawerContent className='pb-4'>
           <DrawerHeader>
@@ -62,25 +57,22 @@ function NewCategory({ children = null }: { children?: React.ReactNode }) {
         </DrawerContent>
       </Drawer>
     );
-  } else {
-    return (
-      <Dialog
-        open={openCategory}
-        onOpenChange={() =>
-          useCommands.setState({ openCategory: !openCategory })
-        }
-      >
-        {children && <DialogTrigger asChild>{children}</DialogTrigger>}
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
-          </DialogHeader>
-          <NewCategoryForm />
-        </DialogContent>
-      </Dialog>
-    );
   }
+  return (
+    <Dialog
+      open={openCategory}
+      onOpenChange={() => useCommands.setState({ openCategory: !openCategory })}
+    >
+      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <NewCategoryForm />
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 export default NewCategory;

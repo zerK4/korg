@@ -1,5 +1,5 @@
 import { CommandDialogComp } from "@/components/command";
-import { Sidebar } from "@/components/navigation/sidebar";
+import { MobileMenu, Sidebar } from "@/components/navigation/sidebar";
 import Topbar from "@/components/navigation/topbar";
 import React from "react";
 import getSession from "../actions/authActions";
@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import ClientPage from "./page.client";
 import { db } from "@/db";
-import { budget } from "@/db/schema";
+import { budget, expenses, incomes } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { getRecents } from "../actions/recentsActions";
 import NewIncome from "@/components/forms/newIncome";
@@ -28,17 +28,33 @@ async function layout({ children }: Readonly<{ children: React.ReactNode }>) {
   });
   const recents = await getRecents();
 
+  const currentExpenses = await db.query.expenses.findMany({
+    where: eq(expenses.userId, user?.id),
+  });
+
+  const currentIncomes = await db.query.incomes.findMany({
+    where: eq(incomes.userId, user?.id),
+  });
+
   return (
-    <div className='flex'>
+    <div className='flex overflow-x-hidden min-h-[100dvh]'>
       <Sidebar />
+      <MobileMenu />
       <CommandDialogComp />
-      <div className='ml-20 relative w-full'>
+      <div className='md:ml-20 relative w-full'>
         <Topbar />
         <NewIncome />
         <NewExpense />
         <NewBudgetType />
         <NewCategory />
-        <ClientPage budgetTypes={budgetTypes} recents={recents} />
+        <ClientPage
+          data={{
+            currentExpenses,
+            currentIncomes,
+            budgetTypes,
+            recents,
+          }}
+        />
         {children}
         <Toaster closeButton position='top-center' richColors />
       </div>

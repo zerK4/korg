@@ -4,7 +4,7 @@ import React from "react";
 import getSession from "../actions/authActions";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
-import { expenses, incomes } from "@/db/schema";
+import { budget, expenses, incomes } from "@/db/schema";
 import TotalsCard from "@/components/card/totalsCard";
 import {
   getStatisticsOverMonths,
@@ -17,6 +17,13 @@ async function page() {
 
   if (!user) redirect("/login");
 
+  const budgetTypes = await db.query.budget.findMany({
+    where: eq(budget.userId, user?.id),
+    with: {
+      user: true,
+    },
+  });
+
   const currentExpenses = await db.query.expenses.findMany({
     where: eq(expenses.userId, user?.id),
   });
@@ -24,6 +31,21 @@ async function page() {
   const currentIncomes = await db.query.incomes.findMany({
     where: eq(incomes.userId, user?.id),
   });
+
+  const totalBudgetTypes = budgetTypes.reduce((acc, item) => {
+    const existingItemIndex = acc.findIndex(
+      (accItem) => accItem.name === item.name
+    );
+    if (existingItemIndex === -1) {
+      acc.push({
+        name: item.name,
+        amount: Number(item.amount),
+      });
+    } else {
+      acc[existingItemIndex].amount += Number(item.amount);
+    }
+    return acc;
+  }, [] as { name: string; amount: number }[]);
 
   const { sum: thisMonthIncomeSum, data: incomeData } = getSumOfCurrentMonth(
     currentIncomes,
@@ -38,10 +60,11 @@ async function page() {
   const percentageExpense = getStatisticsOverMonths(currentExpenses);
 
   return (
-    <div className='p-2'>
+    <div className='p-2 h-fit overflow-y-hidden'>
       <div className='flex flex-wrap gap-4'>
         <TotalsCard
           data={{
+            totalBudgetTypes,
             thisMonthIncomeSum,
             thisMonthExpenseSum,
             percentageIncome,

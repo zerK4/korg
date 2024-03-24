@@ -77,6 +77,8 @@ export async function removeIncome(id: string) {
       type: selectedIncome?.type,
     });
 
+    await db.delete(recentAdded).where(eq(recentAdded.thingId, id));
+
     await db
       .delete(incomes)
       .where(and(eq(incomes.id, id), eq(incomes.userId, user.id)));

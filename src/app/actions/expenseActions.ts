@@ -66,6 +66,7 @@ export async function newExpense(values: z.infer<typeof expenseSchema>) {
 
 export async function removeExpense(id: string) {
   try {
+    await db.delete(recentAdded).where(eq(recentAdded.thingId, id));
     await db.delete(expenses).where(eq(expenses.id, id));
 
     revalidatePath("/expenses");

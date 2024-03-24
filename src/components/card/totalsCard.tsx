@@ -7,25 +7,29 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import anime from "animejs";
 
 function TotalsCard({
-  data,
+  data: {
+    totalBudgetTypes,
+    thisMonthIncomeSum,
+    thisMonthExpenseSum,
+    percentageIncome,
+    percentageExpense,
+  },
 }: {
   data: {
+    totalBudgetTypes: {
+      name: string;
+      amount: number;
+    }[];
     thisMonthIncomeSum: string;
     thisMonthExpenseSum: string;
     percentageIncome: { change: number; direction: string } | undefined;
     percentageExpense: { change: number; direction: string } | undefined;
   };
 }) {
-  const {
-    percentageExpense,
-    percentageIncome,
-    thisMonthExpenseSum,
-    thisMonthIncomeSum,
-  } = data;
-
   const cardRef = useRef(null);
 
   useEffect(() => {
+    console.log(totalBudgetTypes);
     anime({
       targets: cardRef.current,
       opacity: [0, 1],
@@ -38,21 +42,27 @@ function TotalsCard({
   return (
     <Card
       ref={cardRef}
-      className='border group/sharedCard rounded-xl gradiendBg ease-in-out duration-300 flex flex-col relative w-full md:w-1/2 scale-0 opacity-0 translate-y-40'
+      className='border group/sharedCard rounded-xl flex-1 basis-[70vw] gradiendBg ease-in-out duration-300 flex flex-col relative w-full md:w-1/2 scale-0 opacity-0 translate-y-40'
     >
       <CardHeader className=''>
         <CardTitle className='text-3xl flex items-center justify-between'>
-          <span className='text-2xl font-bold'>Overview</span>
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger>
-              <Info size={16} />
-            </TooltipTrigger>
-            <TooltipContent className='text-sm max-w-96 text-foreground/80 p-4 rounded-xl'>
-              Acesta este overwiew-ul lunii in curs, dupa ce ai cheltuieli si
-              venituri pe mai multe luni o sa ai si un indicator care iti va
-              arata cum evoluezi, daca te duci in sus sau mai in jos.
-            </TooltipContent>
-          </Tooltip>
+          <div className='flex gap-2 flex-col'>
+            <span className='text-2xl font-bold'>Overview</span>
+            <div className='flex flex-wrap gap-2'>
+              {totalBudgetTypes.length > 0 &&
+                totalBudgetTypes.map((item, i) => (
+                  <div key={i} className='text-base border-b w-[10rem]'>
+                    <span>{item.name}: </span>
+                    <span>
+                      {item.amount.toLocaleString("ro-RO", {
+                        style: "currency",
+                        currency: "RON",
+                      })}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className='flex items-center justify-between flex-wrap gap-4'>
@@ -92,6 +102,10 @@ function TotalsCard({
         </div>
         <div className='flex flex-col gap-1  flex-1 basis-40 whitespace-nowrap justify-center'>
           <span>Cheltuieli prevazute luna asta</span>
+          <span className='text-2xl font-semibold'>{thisMonthExpenseSum}</span>
+        </div>
+        <div className='flex flex-col gap-1  flex-1 basis-40 whitespace-nowrap justify-center'>
+          <span>Economii</span>
           <span className='text-2xl font-semibold'>{thisMonthExpenseSum}</span>
         </div>
       </CardContent>
