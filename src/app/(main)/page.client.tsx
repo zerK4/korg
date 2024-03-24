@@ -28,6 +28,24 @@ function ClientPage({
       currentIncomes: currentIncomes,
     });
   }, [budgetTypes, recents]);
+
+  useEffect(() => {
+    document.addEventListener("gesturestart", function (e) {
+      e.preventDefault();
+      (document.body.style as any).zoom = 0.99;
+    });
+
+    document.addEventListener("gesturechange", function (e) {
+      e.preventDefault();
+
+      (document.body.style as any).zoom = 0.99;
+    });
+    document.addEventListener("gestureend", function (e) {
+      e.preventDefault();
+      (document.body.style as any).zoom = 1;
+    });
+  });
+
   return null;
 }
 
