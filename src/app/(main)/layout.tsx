@@ -37,7 +37,7 @@ async function layout({ children }: Readonly<{ children: React.ReactNode }>) {
   });
 
   return (
-    <div className='flex overflow-x-hidden min-h-[100dvh]'>
+    <div className='flex overflow-x-hidden min-h-[100dvh] pb-16 md:pb-0'>
       <Sidebar />
       <MobileMenu />
       <CommandDialogComp />
