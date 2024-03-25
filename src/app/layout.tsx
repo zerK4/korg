@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/themeProvider";
 import { ModeToggle } from "@/components/modeToggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,6 +33,7 @@ export default function RootLayout({
         >
           <TooltipProvider>{children}</TooltipProvider>
           <ModeToggle />
+          <Toaster closeButton position='top-center' richColors />
         </ThemeProvider>
       </body>
     </html>

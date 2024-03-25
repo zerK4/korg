@@ -56,7 +56,6 @@ async function layout({ children }: Readonly<{ children: React.ReactNode }>) {
           }}
         />
         {children}
-        <Toaster closeButton position='top-center' richColors />
       </div>
     </div>
   );

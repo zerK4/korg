@@ -38,7 +38,7 @@ function SharedCard({
   return (
     <Card
       ref={sharedCardRef}
-      className='border group/sharedCard anime-db-card rounded-xl gradiendBg ease-in-out flex-1 basis-[50rem] duration-300 flex flex-col justify-between relative opacity-0 translate-y-40 min-h-[20rem]'
+      className='border group/sharedCard anime-db-card rounded-xl coloredBgGradient ease-in-out flex-1 basis-[50rem] duration-300 flex flex-col justify-between relative opacity-0 translate-y-40 min-h-[20rem]'
     >
       <CardHeader className='mb-2'>
         <div className='flex items-center justify-between'>

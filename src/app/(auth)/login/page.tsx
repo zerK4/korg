@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { login } from "@/app/actions/authActions";
+import { toast } from "sonner";
 
 const authSchema = z.object({
   email: z.string().email({
@@ -31,7 +32,13 @@ function Page() {
   });
 
   const handleSubmit = async (values: z.infer<typeof authSchema>) => {
-    await login(values);
+    const promise = login(values);
+
+    toast.promise(promise, {
+      loading: "Logging in...",
+      success: "We sent you an email, check it.",
+      error: "Failed to login",
+    });
   };
 
   return (

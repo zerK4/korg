@@ -19,6 +19,7 @@ function AnalyticsCalendar({
   };
   noBorder?: boolean;
 }) {
+  const [modalOpen, setModalOpen] = useState(false);
   const sharedRef = useRef(null);
   const [currentExpenses, setCurrentExpenses] = useState<ExpenseType[] | null>(
     []
@@ -53,7 +54,7 @@ function AnalyticsCalendar({
           <Button
             variant={"ghost"}
             size={"icon"}
-            className={`h-12 w-12 relative grid place-content-center ease-in-out duration-300 cursor-pointer rounded-xl hover:bg-accent/80 hover:border ${buttonClass}`}
+            className={`h-12 w-12 relative flex ease-in-out duration-300 cursor-pointer rounded-xl hover:bg-accent/80 hover:border ${buttonClass}`}
           >
             {day?.date?.getDate()}
             {currentExpenses && (
@@ -78,10 +79,13 @@ function AnalyticsCalendar({
   return (
     <div
       ref={sharedRef}
-      className={cn("flex flex-1 basis-96 justify-center rounded-xl h-fit", {
-        "border": true,
-        "border-none": noBorder,
-      })}
+      className={cn(
+        "flex flex-1 basis-96 calendarGradient justify-center rounded-xl h-fit opacity-0 translate-y-40",
+        {
+          "border": true,
+          "border-none": noBorder,
+        }
+      )}
     >
       <Calendar components={{ Day: renderDay }} />
     </div>

@@ -9,7 +9,7 @@ import getSession from "./authActions";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { and, eq } from "drizzle-orm";
-import { recentAdded } from "@/db/schema";
+import { recentAdded, users } from "@/db/schema";
 
 export async function getAllCategories() {
   try {
@@ -27,25 +27,31 @@ export async function getAllCategories() {
 }
 export async function newCategory(values: z.infer<typeof categorySchema>) {
   try {
-    const { user } = await getSession();
+    // const { user } = await getSession();
 
-    if (!user) {
-      redirect("/login");
-    }
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, "sebastian.v.pavel@gmial.com"),
+    });
+
+    console.log(user, "the user");
+
+    // if (!user) {
+    //   redirect("/login");
+    // }
 
     const theCategory = await db
       .insert(categories)
       .values({
         ...values,
         id: v4(),
-        userId: user.id,
+        userId: user!.id,
       })
       .returning();
 
     await db.insert(recentAdded).values({
       name: values.name,
       what: "category",
-      userId: user.id,
+      userId: user!.id,
       date: new Date().toLocaleDateString(),
       thingId: theCategory[0].id,
     });

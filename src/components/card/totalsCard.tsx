@@ -41,7 +41,7 @@ function TotalsCard({
   return (
     <Card
       ref={cardRef}
-      className='border group/sharedCard rounded-xl flex-1 basis-[70vw] gradiendBg ease-in-out duration-300 flex flex-col relative w-full md:w-1/2 scale-0 opacity-0 translate-y-40'
+      className='border group/sharedCard rounded-xl flex-1 basis-[70vw] coloredGradient ease-in-out duration-300 flex flex-col relative w-full md:w-1/2 scale-0 opacity-0 translate-y-40'
     >
       <CardHeader className=''>
         <CardTitle className='text-3xl flex items-center justify-between'>
@@ -50,7 +50,7 @@ function TotalsCard({
             <div className='flex flex-wrap gap-2'>
               {totalBudgetTypes.length > 0 &&
                 totalBudgetTypes.map((item, i) => (
-                  <div key={i} className='text-base border-b w-[10rem]'>
+                  <div key={i} className='text-base w-[10rem]'>
                     <span>{item.name}: </span>
                     <span>
                       {item.amount.toLocaleString("ro-RO", {

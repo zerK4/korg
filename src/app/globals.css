@@ -75,6 +75,162 @@
     padding-bottom: env(safe-area-inset-right);
   }
 
+  .coloredGradient {
+    background-image: repeating-linear-gradient(
+        45deg,
+        hsla(64, 83%, 54%, 0.05) 0px,
+        hsla(64, 83%, 54%, 0.05) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(64, 83%, 54%, 0.05) 11px,
+        hsla(64, 83%, 54%, 0.05) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        hsla(64, 83%, 54%, 0.05) 0px,
+        hsla(64, 83%, 54%, 0.05) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(64, 83%, 54%, 0.05) 11px,
+        hsla(64, 83%, 54%, 0.05) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        hsla(64, 83%, 54%, 0.05) 0px,
+        hsla(64, 83%, 54%, 0.05) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(64, 83%, 54%, 0.05) 11px,
+        hsla(64, 83%, 54%, 0.05) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      repeating-linear-gradient(
+        135deg,
+        hsla(64, 83%, 54%, 0.05) 0px,
+        hsla(64, 83%, 54%, 0.05) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(64, 83%, 54%, 0.05) 11px,
+        hsla(64, 83%, 54%, 0.05) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      linear-gradient(90deg, rgb(41, 27, 158, 0.3), rgb(249, 77, 212, 0.5));
+  }
+
+  .coloredBgGradient {
+    background-image: repeating-linear-gradient(
+        0deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        67.5deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        157.5deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        112.5deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        22.5deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        112.5deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      repeating-linear-gradient(
+        22.5deg,
+        hsla(83, 0%, 53%, 0.03) 0px,
+        hsla(83, 0%, 53%, 0.03) 1px,
+        transparent 1px,
+        transparent 12px
+      ),
+      linear-gradient(90deg, rgb(40, 24, 113), rgb(159, 96, 150));
+  }
+
+  .calendarGradient {
+    background-image: repeating-linear-gradient(
+        0deg,
+        hsla(342, 35%, 96%, 0.02) 0px,
+        hsla(342, 35%, 96%, 0.02) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(342, 35%, 96%, 0.02) 11px,
+        hsla(342, 35%, 96%, 0.02) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        hsla(342, 35%, 96%, 0.02) 0px,
+        hsla(342, 35%, 96%, 0.02) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(342, 35%, 96%, 0.02) 11px,
+        hsla(342, 35%, 96%, 0.02) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      repeating-linear-gradient(
+        45deg,
+        hsla(342, 35%, 96%, 0.02) 0px,
+        hsla(342, 35%, 96%, 0.02) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(342, 35%, 96%, 0.02) 11px,
+        hsla(342, 35%, 96%, 0.02) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      repeating-linear-gradient(
+        135deg,
+        hsla(342, 35%, 96%, 0.02) 0px,
+        hsla(342, 35%, 96%, 0.02) 1px,
+        transparent 1px,
+        transparent 11px,
+        hsla(342, 35%, 96%, 0.02) 11px,
+        hsla(342, 35%, 96%, 0.02) 12px,
+        transparent 12px,
+        transparent 32px
+      ),
+      linear-gradient(90deg, rgba(57, 46, 0.5, 0.1), rgba(80, 228, 41, 0.1));
+  }
+
   .gradiendBg {
     background-image: repeating-linear-gradient(
         135deg,
