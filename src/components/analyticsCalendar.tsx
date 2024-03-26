@@ -19,7 +19,6 @@ function AnalyticsCalendar({
   };
   noBorder?: boolean;
 }) {
-  const [modalOpen, setModalOpen] = useState(false);
   const sharedRef = useRef(null);
   const [currentExpenses, setCurrentExpenses] = useState<ExpenseType[] | null>(
     []
@@ -107,7 +106,10 @@ const RenderCoolDot = ({
   return (
     <span>
       {data?.map((x, i) => {
-        if (day.date.toLocaleDateString() === x.date) {
+        if (
+          day.date.toLocaleDateString() ===
+          new Date(x.date as number).toLocaleDateString()
+        ) {
           return (
             <span
               key={i}

@@ -23,7 +23,7 @@ export async function newIncome(values: z.infer<typeof incomeSchema>) {
     const theIncome = await db
       .insert(incomes)
       .values({
-        date: values.date.toLocaleDateString(),
+        date: values.date,
         name: values.name,
         details: values.details,
         amount: Number(values.value),

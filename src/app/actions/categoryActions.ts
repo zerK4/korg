@@ -27,17 +27,13 @@ export async function getAllCategories() {
 }
 export async function newCategory(values: z.infer<typeof categorySchema>) {
   try {
-    // const { user } = await getSession();
-
-    const user = await db.query.users.findFirst({
-      where: eq(users.email, "sebastian.v.pavel@gmial.com"),
-    });
+    const { user } = await getSession();
 
     console.log(user, "the user");
 
-    // if (!user) {
-    //   redirect("/login");
-    // }
+    if (!user) {
+      redirect("/login");
+    }
 
     const theCategory = await db
       .insert(categories)
@@ -46,15 +42,16 @@ export async function newCategory(values: z.infer<typeof categorySchema>) {
         id: v4(),
         userId: user!.id,
       })
-      .returning();
-
-    await db.insert(recentAdded).values({
-      name: values.name,
-      what: "category",
-      userId: user!.id,
-      date: new Date().toLocaleDateString(),
-      thingId: theCategory[0].id,
-    });
+      .returning()
+      .then(async ([res]) => {
+        await db.insert(recentAdded).values({
+          name: values.name,
+          what: "category",
+          userId: user!.id,
+          date: new Date().toLocaleDateString(),
+          thingId: res.id,
+        });
+      });
 
     revalidatePath("/categories");
     return theCategory;

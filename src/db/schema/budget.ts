@@ -1,5 +1,5 @@
 import { InferSelectModel, relations } from "drizzle-orm";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { v4 } from "uuid";
 import { users } from ".";
 

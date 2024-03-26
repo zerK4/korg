@@ -16,6 +16,7 @@ import { CategoryType } from "@/db/schema/categories";
 import { useFunctions } from "@/store/useFunctions";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { RenderDateField } from "../../incomes/comp/renderDateField";
 
 export interface IExpenseExtended extends ExpenseType {
   category: CategoryType;
@@ -96,7 +97,7 @@ export const columns: ColumnDef<IExpenseExtended>[] = [
     cell: ({ row }) => {
       return (
         <div className='w-full flex justify-end'>
-          <span className=''>{row.original.date}</span>
+          <RenderDateField data={row.original.date as number} />
         </div>
       );
     },

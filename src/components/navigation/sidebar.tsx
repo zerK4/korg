@@ -2,7 +2,7 @@
 
 import { BarChart, Coins, Grid, Home, LogOut, Plus } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { Fragment } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
@@ -57,14 +57,14 @@ export const MobileMenu = () => {
     <div className='fixed bottom-0 left-0 w-full flex items-center justify-between md:hidden h-16 bg-background z-50 px-10'>
       <div className='flex gap-4 items-center justify-between w-full h-full'>
         {navMenu.map((item, i) => (
-          <>
+          <Fragment key={i}>
             <Link key={i} href={item.href}>
               <Button className='h-10 w-10' variant={"ghost"} size={"icon"}>
                 <span>{item.icon}</span>
               </Button>
             </Link>
             {i === navMenu.length - 3 && <MobileNavDrawer />}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

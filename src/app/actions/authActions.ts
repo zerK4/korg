@@ -2,7 +2,7 @@
 
 import { ActionResult } from "next/dist/server/app-render/types";
 import { db } from "@/db";
-import { UserType, users } from "@/db/schema";
+import { UserType, session, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { v4 } from "uuid";
 import { sendLoginEmail } from "@/lib/resend";
@@ -40,6 +40,12 @@ export async function login({
   // }
 
   if (exists) {
+    const cookie = cookies().get(lucia.sessionCookieName);
+
+    if (cookie) {
+      await db.delete(session).where(eq(session.id, cookie?.value as string));
+    }
+
     await db.update(users).set({ token }).where(eq(users.email, email));
     await sendLoginEmail({ to: String(email), token });
 

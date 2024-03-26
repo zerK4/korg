@@ -62,18 +62,16 @@ export function calculatePercentageChange(
 }
 
 export const getTodayMonthNumber = () => {
-  const today = new Date().toLocaleDateString().split("/")[0];
-  const todayMonth = today.length === 1 ? `0${today}` : today;
-  return todayMonth;
+  return new Date().getMonth();
 };
 
 export function getSumOfCurrentMonth(
   data: IncomeType[] | ExpenseType[],
-  monthNumber: string
+  monthNumber: number
 ) {
   const monthData = data
     .map((income) => {
-      if (income.date?.split("/")[1] === monthNumber) {
+      if (new Date(income.date as number).getMonth() === monthNumber) {
         return income;
       }
     })
@@ -92,10 +90,10 @@ export const getStatisticsOverMonths = (data: IncomeType[] | ExpenseType[]) => {
   const lastMonthNumber = todayMonthNumber - 1;
 
   const currentMonthData = data.filter(
-    (item) => Number(item.date?.split("/")[1]) === todayMonthNumber
+    (item) => new Date(item.date as number).getMonth() === todayMonthNumber
   );
   const lastMonthData = data.filter(
-    (item) => Number(item.date?.split("/")[1]) === lastMonthNumber
+    (item) => new Date(item.date as number).getMonth() === lastMonthNumber
   );
 
   const sumOfCurrentMonth = currentMonthData.reduce(

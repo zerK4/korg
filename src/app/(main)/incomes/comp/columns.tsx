@@ -17,6 +17,7 @@ import { CategoryType } from "@/db/schema/categories";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "sonner";
+import { RenderDateField } from "./renderDateField";
 
 export interface ICategoryExtended extends CategoryType {
   expenses: ExpenseType[];
@@ -94,9 +95,10 @@ export const columns: ColumnDef<IncomeType>[] = [
       return <div className='flex w-full justify-end'>Data</div>;
     },
     cell: ({ row }) => {
+      const date = new Date(row.original.date!).toLocaleDateString();
       return (
         <div className='w-full flex justify-end gap-2'>
-          <span className=''>{row.original.date}</span>
+          <RenderDateField data={row.original.date as number} />
         </div>
       );
     },

@@ -109,6 +109,7 @@ const IncomeForm = ({ budgetTypes }: { budgetTypes: BudgetType[] }) => {
       name: "",
       type: "",
       value: "",
+      date: Date.now(),
     },
   });
 

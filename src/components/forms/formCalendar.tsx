@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { FormControl } from "../ui/form";
 import { Button } from "../ui/button";
@@ -7,6 +7,10 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 
 export function FormCalendar({ field }: { field: any }) {
+  const [date, setDate] = useState<Date | null>(null);
+  useEffect(() => {
+    setDate(new Date(field.value));
+  }, [field]);
   return (
     <Popover modal={true}>
       <PopoverTrigger asChild>
@@ -19,7 +23,7 @@ export function FormCalendar({ field }: { field: any }) {
             )}
           >
             {field.value ? (
-              field.value.toLocaleDateString()
+              <span>{date?.toLocaleDateString()}</span>
             ) : (
               <span>Selecteaza o data</span>
             )}

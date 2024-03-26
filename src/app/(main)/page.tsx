@@ -51,6 +51,9 @@ async function page() {
     currentIncomes,
     getTodayMonthNumber()
   );
+
+  console.log(incomeData);
+
   const { sum: thisMonthExpenseSum, data: expenseData } = getSumOfCurrentMonth(
     currentExpenses,
     getTodayMonthNumber()

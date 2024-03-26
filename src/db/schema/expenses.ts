@@ -8,7 +8,7 @@ export const expenses = sqliteTable("expenses", {
   name: text("name").notNull(),
   amount: integer("amount").notNull(),
   userId: text("user_id").notNull(),
-  date: text("date"),
+  date: integer("date"),
   categoryId: text("expense_id").notNull(),
   created_at: integer("created_at").default(sql`CURRENT_TIMESTAMP`),
   updated_at: integer("created_at"),

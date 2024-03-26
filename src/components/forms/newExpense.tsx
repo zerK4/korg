@@ -121,7 +121,7 @@ const NewExpenseForm = ({
       name: "",
       amount: "",
       category: "",
-      date: new Date(),
+      date: Date.now(),
     },
   });
 
