@@ -1,4 +1,4 @@
-import { ExpenseType, IncomeType } from "@/db/schema";
+import { ExpenseType, ExpenseWithCategories, IncomeType } from "@/db/schema";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -67,12 +67,24 @@ export const getTodayMonthNumber = () => {
 
 export function getSumOfCurrentMonth(
   data: IncomeType[] | ExpenseType[],
-  monthNumber: number
+  monthNumber: number,
+  monthDay: number | null = null
 ) {
   const monthData = data
     .map((income) => {
-      if (new Date(income.date as number).getMonth() === monthNumber) {
-        return income;
+      if (new Date(income.date as number).getMonth() + 1 === monthNumber) {
+        if (monthDay !== null) {
+          console.log(
+            new Date(income.date as number).getDate(),
+            monthDay,
+            "tom lib"
+          );
+          if (new Date(income.date as number).getDate() === monthDay) {
+            return income;
+          }
+        } else {
+          return income;
+        }
       }
     })
     .filter((income) => income !== undefined);
@@ -124,3 +136,40 @@ export const getStatisticsOverMonths = (data: IncomeType[] | ExpenseType[]) => {
     direction,
   };
 };
+
+export async function getCategoriesExpenses({
+  expenses,
+  month = new Date().getMonth() + 1,
+}: {
+  expenses: ExpenseWithCategories[] | undefined;
+  month?: number;
+}) {
+  try {
+    if (!expenses) return null;
+    const data: any[] = [];
+
+    expenses.forEach((expense) => {
+      const expenseMonth = new Date(expense.date as number).getMonth() + 1;
+      if (expenseMonth === month) {
+        const categoryIndex = data.findIndex(
+          (x) => x.name === expense.category?.name
+        );
+
+        if (categoryIndex !== -1) {
+          data[categoryIndex].amount += Number(expense.amount);
+        } else {
+          data.push({
+            ...expense.category,
+            amount: Number(expense.amount),
+          });
+        }
+      }
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+}

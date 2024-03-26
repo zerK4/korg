@@ -1,7 +1,7 @@
 import { InferSelectModel, relations, sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { users } from ".";
-import { categories } from "./categories";
+import { CategoryType, categories } from "./categories";
 
 export const expenses = sqliteTable("expenses", {
   id: text("id").primaryKey().notNull(),
@@ -9,9 +9,9 @@ export const expenses = sqliteTable("expenses", {
   amount: integer("amount").notNull(),
   userId: text("user_id").notNull(),
   date: integer("date"),
-  categoryId: text("expense_id").notNull(),
+  categoryId: text("category_id").notNull(),
   created_at: integer("created_at").default(sql`CURRENT_TIMESTAMP`),
-  updated_at: integer("created_at"),
+  updated_at: integer("updated_at"),
 });
 
 export const expensesRelations = relations(expenses, ({ many, one }) => ({
@@ -28,3 +28,6 @@ export const expensesRelations = relations(expenses, ({ many, one }) => ({
 }));
 
 export type ExpenseType = InferSelectModel<typeof expenses>;
+export interface ExpenseWithCategories extends ExpenseType {
+  category: CategoryType;
+}

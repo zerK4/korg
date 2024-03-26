@@ -14,8 +14,8 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { useCommands } from "@/store/useCommands";
-import { navMenu } from "./navigation/sidebar";
 import { useRouter } from "next/navigation";
+import { navMenu } from "@/lib/navigation";
 
 export function CommandDialogComp() {
   const [open, setOpen] = React.useState(false);

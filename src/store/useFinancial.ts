@@ -11,6 +11,8 @@ export interface IUseFinancial {
   recentAdded: RecentAddedType[] | null;
   currentExpenses: ExpenseType[] | null;
   currentIncomes: IncomeType[] | null;
+  filterMonth: number;
+  filterDate: Date | null;
 }
 
 export const useFinancial = create<IUseFinancial>((set) => ({
@@ -18,4 +20,6 @@ export const useFinancial = create<IUseFinancial>((set) => ({
   recentAdded: null,
   currentExpenses: null,
   currentIncomes: null,
+  filterDate: new Date(),
+  filterMonth: new Date().getMonth() + 1,
 }));

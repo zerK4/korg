@@ -8,9 +8,18 @@ import { Calendar } from "../ui/calendar";
 
 export function FormCalendar({ field }: { field: any }) {
   const [date, setDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   useEffect(() => {
     setDate(new Date(field.value));
   }, [field]);
+
+  const handleDateSelect = (e: any) => {
+    field.onChange(e.getTime());
+    setSelectedDate(e);
+    setDate(e);
+  };
+
   return (
     <Popover modal={true}>
       <PopoverTrigger asChild>
@@ -34,8 +43,8 @@ export function FormCalendar({ field }: { field: any }) {
       <PopoverContent className='w-auto p-0' align='start'>
         <Calendar
           mode='single'
-          selected={field.value}
-          onSelect={field.onChange}
+          selected={selectedDate as Date}
+          onSelect={handleDateSelect}
           disabled={(date) => date > new Date()}
           initialFocus
         />

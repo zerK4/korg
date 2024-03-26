@@ -12,8 +12,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ExpenseType } from "@/db/schema";
 import { CategoryType } from "@/db/schema/categories";
+import { getSumOfCurrentMonth } from "@/lib/utils";
+import { useFinancial } from "@/store/useFinancial";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export interface ICategoryExtended extends CategoryType {
   expenses: ExpenseType[];
@@ -64,6 +67,19 @@ export const columns: ColumnDef<ICategoryExtended>[] = [
       return (
         <div className='w-full flex justify-center'>
           <span className=''>{row.original.expenses.length}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "expenses_amount",
+    header: ({ table }) => {
+      return <div className='flex w-full justify-center'>Value</div>;
+    },
+    cell: ({ row }) => {
+      return (
+        <div className='w-full flex justify-center'>
+          <RenderExpenseAmount data={row.original.expenses} />
         </div>
       );
     },
@@ -124,3 +140,19 @@ export const columns: ColumnDef<ICategoryExtended>[] = [
     },
   },
 ];
+
+export const RenderExpenseAmount = ({ data }: { data: ExpenseType[] }) => {
+  const { filterMonth, filterDate } = useFinancial();
+  const [amount, setAmount] = useState<any>(0);
+
+  useEffect(() => {
+    const { data: expenseData, sum } = getSumOfCurrentMonth(
+      data,
+      filterMonth,
+      filterDate?.getDate()
+    );
+    setAmount(sum);
+    console.log(filterMonth, filterDate?.getDate(), "the month and day");
+  }, [data, filterMonth, filterDate]);
+  return <div>{amount}</div>;
+};

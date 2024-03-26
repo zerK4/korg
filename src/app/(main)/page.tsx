@@ -4,12 +4,12 @@ import React from "react";
 import getSession from "../actions/authActions";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
-import { budget, expenses, incomes } from "@/db/schema";
+import { ExpenseWithCategories, budget, expenses, incomes } from "@/db/schema";
 import TotalsCard from "@/components/card/totalsCard";
 import {
+  getCategoriesExpenses,
   getStatisticsOverMonths,
   getSumOfCurrentMonth,
-  getTodayMonthNumber,
 } from "@/lib/utils";
 import AnalyticsCalendar from "@/components/analyticsCalendar";
 async function page() {
@@ -26,11 +26,18 @@ async function page() {
 
   const currentExpenses = await db.query.expenses.findMany({
     where: eq(expenses.userId, user?.id),
+    with: {
+      category: true,
+    },
   });
 
   const currentIncomes = await db.query.incomes.findMany({
     where: eq(incomes.userId, user?.id),
   });
+  const totalExpensesPerCategory = await getCategoriesExpenses({
+    expenses: currentExpenses as any,
+  });
+  console.log(totalExpensesPerCategory, "the expenses");
 
   const totalBudgetTypes = budgetTypes.reduce((acc, item) => {
     const existingItemIndex = acc.findIndex(
@@ -49,14 +56,12 @@ async function page() {
 
   const { sum: thisMonthIncomeSum, data: incomeData } = getSumOfCurrentMonth(
     currentIncomes,
-    getTodayMonthNumber()
+    new Date().getMonth() + 1
   );
-
-  console.log(incomeData);
 
   const { sum: thisMonthExpenseSum, data: expenseData } = getSumOfCurrentMonth(
     currentExpenses,
-    getTodayMonthNumber()
+    new Date().getMonth() + 1
   );
 
   const percentageIncome = getStatisticsOverMonths(currentIncomes);
@@ -81,11 +86,20 @@ async function page() {
           }}
         />
         <SharedCard
+          type='bar'
+          finder='amount'
+          total={thisMonthExpenseSum}
+          data={totalExpensesPerCategory as any}
+          name='Chelutieli Pe categorii luna curent'
+        />
+        <SharedCard
+          type='line'
           total={thisMonthExpenseSum}
           data={expenseData as any}
           name='Chelutieli luna curenta'
         />
         <SharedCard
+          type='line'
           total={thisMonthIncomeSum}
           data={incomeData as any}
           name='Venituri luna curenta'

@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { categories } from "@/db/schema/categories";
+import { CategoryType, categories } from "@/db/schema/categories";
 import { categorySchema } from "@/schema/categorySchema";
 import { v4 } from "uuid";
 import { z } from "zod";
@@ -9,7 +9,12 @@ import getSession from "./authActions";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { and, eq } from "drizzle-orm";
-import { recentAdded, users } from "@/db/schema";
+import {
+  ExpenseType,
+  ExpenseWithCategories,
+  recentAdded,
+  users,
+} from "@/db/schema";
 
 export async function getAllCategories() {
   try {
@@ -28,8 +33,6 @@ export async function getAllCategories() {
 export async function newCategory(values: z.infer<typeof categorySchema>) {
   try {
     const { user } = await getSession();
-
-    console.log(user, "the user");
 
     if (!user) {
       redirect("/login");
@@ -76,6 +79,18 @@ export async function removeCategory(id: string) {
       .where(and(eq(categories.id, id), eq(categories.userId, user.id)));
 
     revalidatePath("/categories");
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+}
+
+export async function getCategoryById(categoryId: string) {
+  try {
+    return await db.query.categories.findFirst({
+      where: eq(categories.id, categoryId),
+    });
   } catch (error) {
     console.log(error);
 

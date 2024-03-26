@@ -1,28 +1,34 @@
 "use client";
 
-import { calculatePercentageChange } from "@/lib/utils";
 import anime from "animejs";
-import { ArrowDown, ArrowUp, DollarSign } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import {
   LineChart,
   Line,
   ResponsiveContainer,
   Tooltip,
+  BarChart,
+  Bar,
+  Rectangle,
   XAxis,
-  YAxis,
+  Cell,
+  LabelList,
 } from "recharts";
 import { Card, CardHeader } from "../ui/card";
-import { ExpenseType, IncomeType } from "@/db/schema";
+import { CategoryType, ExpenseType, IncomeType } from "@/db/schema";
 
 function SharedCard({
   data,
   name = "SharedCard",
   total = "0",
+  type = "line",
+  finder = "amount",
 }: {
-  data: IncomeType[] | ExpenseType[] | undefined;
+  data: ExpenseType[] | IncomeType[] | CategoryType[] | undefined;
   name?: string;
   total?: string;
+  type?: "line" | "bar";
+  finder?: "amount" | "category" | "name";
 }) {
   const sharedCardRef = useRef(null);
 
@@ -38,7 +44,9 @@ function SharedCard({
   return (
     <Card
       ref={sharedCardRef}
-      className='border group/sharedCard anime-db-card rounded-xl coloredBgGradient ease-in-out flex-1 basis-[50rem] duration-300 flex flex-col justify-between relative opacity-0 translate-y-40 min-h-[20rem]'
+      className={`border ${
+        type === "bar" && "pb-5"
+      } group/sharedCard anime-db-card rounded-xl coloredBgGradient ease-in-out flex-1 basis-[50rem] duration-300 flex flex-col justify-between relative opacity-0 translate-y-40 min-h-[20rem]`}
     >
       <CardHeader className='mb-2'>
         <div className='flex items-center justify-between'>
@@ -47,13 +55,29 @@ function SharedCard({
         </div>
       </CardHeader>
       <div className='flex overflow-hidden w-full h-full'>
-        <ResponsiveContainer height='100%' width='100%'>
-          <LineChart data={data}>
-            <Tooltip content={<CustomTooltip />} />
-            <Line type='monotoneX' dataKey='amount' stroke='#8884d8' />
-            {/* <XAxis dataKey='date' className='text-xs' /> */}
-          </LineChart>
-        </ResponsiveContainer>
+        {type === "line" ? (
+          <ResponsiveContainer height='100%' width='100%'>
+            <LineChart data={data}>
+              <Tooltip content={<CustomTooltip />} />
+              <Line type='monotoneX' dataKey={finder} stroke='#8884d8' />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : type === "bar" ? (
+          <>
+            <ResponsiveContainer width='100%' height='100%'>
+              <BarChart width={150} height={40} data={data}>
+                <Tooltip cursor={false} content={<CustomTooltip />} />
+                <Bar dataKey={finder} fill='#8884d8' />
+              </BarChart>
+            </ResponsiveContainer>
+            <div className='w-full -z-10 h-full border items-end absolute bottom-0 left-0 flex justify-around'>
+              {data &&
+                data.map((entry, index) => (
+                  <p key={`label-${index}`}>{entry.name}</p>
+                ))}
+            </div>
+          </>
+        ) : null}
       </div>
     </Card>
   );

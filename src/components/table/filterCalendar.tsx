@@ -10,30 +10,45 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useFinancial } from "@/store/useFinancial";
+import { useEffect, useState } from "react";
 
 export function FilterCalendar() {
+  const [currentDate, setCurrentDate] = useState<string | undefined>();
+  const { filterDate } = useFinancial();
+
+  useEffect(() => {
+    setCurrentDate(filterDate?.toLocaleDateString());
+  }, [filterDate]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-fit text-left font-normal flex items-center gap-4 h-10 min-w-10 p-0 md:px-3"
-            //   !field.value && "text-muted-foreground"
+            "w-fit text-left font-normal flex items-center gap-4 h-10 min-w-10 p-0 md:px-3",
+            !filterDate && "text-muted-foreground"
           )}
         >
-          <span className='hidden md:flex'>Pick a date</span>
+          <span className='hidden md:flex'>
+            {filterDate ? currentDate : "Pick a date"}
+          </span>
           <CalendarIcon className='opacity-50' size={16} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto p-0 dark:cardGradient' align='end'>
+      <PopoverContent className='w-auto p-2 dark:cardGradient' align='end'>
+        <Button
+          onClick={() => useFinancial.setState({ filterDate: null })}
+          className='w-full'
+        >
+          Show all
+        </Button>
         <Calendar
           mode='single'
-          //   selected={field.value}
-          //   onSelect={field.onChange}
-          disabled={(date) =>
-            date > new Date() || date < new Date("1900-01-01")
-          }
+          selected={filterDate || new Date()}
+          onSelect={(e) => useFinancial.setState({ filterDate: e })}
+          disabled={(date) => date > new Date()}
           initialFocus
         />
       </PopoverContent>

@@ -68,13 +68,11 @@ export async function updateBudget({
       .set({
         amount:
           scope === "increase"
-            ? String(Number(currentBudget?.amount) + amountNumber)
-            : String(Number(currentBudget?.amount) - amountNumber),
+            ? String(Math.max(0, Number(currentBudget?.amount) + amountNumber))
+            : String(Math.max(0, Number(currentBudget?.amount) - amountNumber)),
       })
       .where(and(eq(budget.name, type), eq(budget.userId, user.id)))
       .returning();
-
-    console.log(updated, "asdasda");
 
     revalidatePath("/income");
     return updated;

@@ -1,5 +1,5 @@
 import { CommandDialogComp } from "@/components/command";
-import { MobileMenu, Sidebar } from "@/components/navigation/sidebar";
+import { Sidebar } from "@/components/navigation/sidebar";
 import Topbar from "@/components/navigation/topbar";
 import React from "react";
 import getSession from "../actions/authActions";
@@ -14,6 +14,7 @@ import NewIncome from "@/components/forms/newIncome";
 import NewExpense from "@/components/forms/newExpense";
 import NewBudgetType from "@/components/forms/newIncomeType";
 import NewCategory from "@/components/forms/newCategory";
+import { MobileSidebar } from "@/components/navigation/mobileSidebar";
 
 async function layout({ children }: Readonly<{ children: React.ReactNode }>) {
   const { user } = await getSession();
@@ -39,7 +40,7 @@ async function layout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className='flex overflow-x-hidden min-h-[100dvh] pb-16 md:pb-0'>
       <Sidebar />
-      <MobileMenu />
+      <MobileSidebar />
       <CommandDialogComp />
       <div className='md:ml-20 relative w-full'>
         <Topbar />

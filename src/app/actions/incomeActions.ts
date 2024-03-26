@@ -71,7 +71,7 @@ export async function removeIncome(id: string) {
 
     if (!selectedIncome) return;
 
-    const updated = await updateBudget({
+    await updateBudget({
       amount: String(selectedIncome?.amount),
       scope: "decrease",
       type: selectedIncome?.type,
