@@ -20,13 +20,13 @@ import { CategoryType, ExpenseType, IncomeType } from "@/db/schema";
 function SharedCard({
   data,
   name = "SharedCard",
-  total = "0",
+  total = 0,
   type = "line",
   finder = "amount",
 }: {
   data: ExpenseType[] | IncomeType[] | CategoryType[] | undefined;
   name?: string;
-  total?: string;
+  total?: number;
   type?: "line" | "bar";
   finder?: "amount" | "category" | "name";
 }) {

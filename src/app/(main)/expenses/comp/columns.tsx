@@ -17,6 +17,7 @@ import { useFunctions } from "@/store/useFunctions";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { RenderDateField } from "../../incomes/comp/renderDateField";
+import { AnimatedNumbers } from "@/components/card/animatedNumbers";
 
 export interface IExpenseExtended extends ExpenseType {
   category: CategoryType;
@@ -83,8 +84,7 @@ export const columns: ColumnDef<IExpenseExtended>[] = [
     cell: ({ row }) => {
       return (
         <div className='w-full flex justify-end gap-2'>
-          <span className=''>{row.original.amount}</span>
-          <span className=''>RON</span>
+          <AnimatedNumbers amount={row.original.amount} />
         </div>
       );
     },

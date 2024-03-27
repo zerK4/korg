@@ -47,7 +47,7 @@ import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 import { z } from "zod";
 import { useCommands } from "@/store/useCommands";
-import { FormCalendar } from "./formCalendar";
+import { FormCalendar } from "../calendars/formCalendar";
 
 function NewIncome({ children = null }: { children?: React.ReactNode }) {
   const isMobile = useMediaQuery("(max-width: 768px)");

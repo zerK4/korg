@@ -10,7 +10,8 @@ import { Separator } from "../ui/separator";
 import { ChevronLeft, XIcon } from "lucide-react";
 import { RecentAddedType } from "@/db/schema";
 import { useFinancial } from "@/store/useFinancial";
-import AnalyticsCalendar from "../analyticsCalendar";
+import AnalyticsCalendar from "../calendars/analyticsCalendar";
+import { AnimatedNumbers } from "../card/animatedNumbers";
 
 function SharedRightSidebar({ children }: { children?: React.ReactNode }) {
   const { recentAdded, currentExpenses, currentIncomes } = useFinancial();
@@ -101,7 +102,7 @@ function SharedRightSidebar({ children }: { children?: React.ReactNode }) {
                       <span className='text-sm opacity-50'>{item.what}</span>
                       {item.amount !== null && (
                         <span className='text-sm opacity-50'>
-                          {item.amount} <span className='text-xs'>RON</span>
+                          <AnimatedNumbers amount={item.amount} />
                         </span>
                       )}
                     </div>

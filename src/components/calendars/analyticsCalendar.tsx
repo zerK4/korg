@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "../ui/calendar";
 import { ExpenseType, IncomeType } from "@/db/schema";
 import { DayProps } from "react-day-picker";
-import { Button } from "./ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import anime from "animejs";
 import { cn } from "@/lib/utils";
+import { RenderCoolDot } from "./coolDot";
 
 function AnalyticsCalendar({
   data,
@@ -43,9 +44,7 @@ function AnalyticsCalendar({
 
   const renderDay = (day: DayProps) => {
     const isCurrentMonth = day?.date?.getMonth() === new Date().getMonth();
-    const buttonClass = isCurrentMonth
-      ? "opacity-100"
-      : "opacity-30 pointer-events-none";
+    const buttonClass = isCurrentMonth ? "text-opacity-100" : "text-zinc-500";
 
     return (
       <Tooltip delayDuration={0}>
@@ -92,37 +91,3 @@ function AnalyticsCalendar({
 }
 
 export default AnalyticsCalendar;
-
-const RenderCoolDot = ({
-  data,
-  color,
-  day,
-}: {
-  data: IncomeType[] | ExpenseType[] | undefined;
-  color: string;
-  day: DayProps;
-}) => {
-  if (!data) return null;
-  return (
-    <span>
-      {data?.map((x, i) => {
-        if (
-          day.date.toLocaleDateString() ===
-          new Date(x.date as number).toLocaleDateString()
-        ) {
-          return (
-            <span
-              key={i}
-              className='absolute h-3 bottom-0 left-0 grid place-content-center w-full'
-            >
-              <span className={`h-2 w-2 ${color} rounded-full`} />
-              <TooltipContent className='p-4 text-foreground/80 rounded-xl'>
-                {x.name}
-              </TooltipContent>
-            </span>
-          );
-        }
-      })}
-    </span>
-  );
-};

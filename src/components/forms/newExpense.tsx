@@ -47,7 +47,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 import { z } from "zod";
-import { FormCalendar } from "./formCalendar";
+import { FormCalendar } from "../calendars/formCalendar";
 
 function NewExpense({ children = null }: { children?: React.ReactNode }) {
   const isMobile = useMediaQuery("(max-width: 768px)");

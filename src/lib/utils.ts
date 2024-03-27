@@ -92,7 +92,7 @@ export function getSumOfCurrentMonth(
   const sum = monthData.reduce((acc, curr) => acc + curr!.amount, 0);
 
   return {
-    sum: sum.toLocaleString("ro-RO", { style: "currency", currency: "RON" }),
+    sum: sum,
     data: monthData,
   };
 }

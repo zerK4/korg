@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ArrowDown, ArrowUp, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import anime from "animejs";
+import { AnimatedNumbers } from "./animatedNumbers";
 
 function TotalsCard({
   data: {
@@ -20,8 +21,8 @@ function TotalsCard({
       name: string;
       amount: number;
     }[];
-    thisMonthIncomeSum: string;
-    thisMonthExpenseSum: string;
+    thisMonthIncomeSum: number;
+    thisMonthExpenseSum: number;
     percentageIncome: { change: number; direction: string } | undefined;
     percentageExpense: { change: number; direction: string } | undefined;
   };
@@ -29,7 +30,8 @@ function TotalsCard({
   const cardRef = useRef(null);
 
   useEffect(() => {
-    anime({
+    const tl = anime.timeline({});
+    tl.add({
       targets: cardRef.current,
       opacity: [0, 1],
       translateY: [40, 0],
@@ -49,17 +51,14 @@ function TotalsCard({
             <span className='text-2xl font-bold'>Overview</span>
             <div className='flex flex-wrap gap-2'>
               {totalBudgetTypes.length > 0 &&
-                totalBudgetTypes.map((item, i) => (
-                  <div key={i} className='text-base w-[10rem]'>
-                    <span>{item.name}: </span>
-                    <span>
-                      {item.amount.toLocaleString("ro-RO", {
-                        style: "currency",
-                        currency: "RON",
-                      })}
-                    </span>
-                  </div>
-                ))}
+                totalBudgetTypes.map((item, i) => {
+                  return (
+                    <div key={i} className='text-base w-[10rem]'>
+                      <span>{item.name}: </span>
+                      <AnimatedNumbers amount={item.amount} />
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </CardTitle>
@@ -80,7 +79,7 @@ function TotalsCard({
             )}
           </div>
           <span className='text-2xl font-semibold '>
-            <span>{thisMonthIncomeSum}</span>
+            <AnimatedNumbers amount={thisMonthIncomeSum} />
           </span>
         </div>
         <div className='flex flex-col gap-1  flex-1 basis-40 whitespace-nowrap justify-center'>
@@ -97,15 +96,21 @@ function TotalsCard({
               </span>
             )}
           </div>
-          <span className='text-2xl font-semibold'>{thisMonthExpenseSum}</span>
+          <span className='text-2xl font-semibold'>
+            <AnimatedNumbers amount={thisMonthExpenseSum} />
+          </span>
         </div>
         <div className='flex flex-col gap-1  flex-1 basis-40 whitespace-nowrap justify-center'>
           <span>Cheltuieli prevazute luna asta</span>
-          <span className='text-2xl font-semibold'>{thisMonthExpenseSum}</span>
+          <span className='text-2xl font-semibold'>
+            <AnimatedNumbers amount={thisMonthExpenseSum} />
+          </span>
         </div>
         <div className='flex flex-col gap-1  flex-1 basis-40 whitespace-nowrap justify-center'>
           <span>Economii</span>
-          <span className='text-2xl font-semibold'>{thisMonthExpenseSum}</span>
+          <span className='text-2xl font-semibold'>
+            <AnimatedNumbers amount={thisMonthExpenseSum} />
+          </span>
         </div>
       </CardContent>
     </Card>

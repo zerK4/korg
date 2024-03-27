@@ -11,7 +11,7 @@ import {
   getStatisticsOverMonths,
   getSumOfCurrentMonth,
 } from "@/lib/utils";
-import AnalyticsCalendar from "@/components/analyticsCalendar";
+import AnalyticsCalendar from "@/components/calendars/analyticsCalendar";
 async function page() {
   const { user } = await getSession();
 
