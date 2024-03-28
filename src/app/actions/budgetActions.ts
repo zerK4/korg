@@ -11,7 +11,7 @@ import { and, eq } from "drizzle-orm";
 import { recentAdded } from "@/db/schema";
 
 export async function createBudgetType(
-  values: z.infer<typeof budgetTypeSchema>
+  values: z.infer<typeof budgetTypeSchema>,
 ) {
   try {
     const { user } = await getSession();

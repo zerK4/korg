@@ -7,8 +7,8 @@ import {
   RecentAddedType,
 } from "@/db/schema";
 import { useFinancial } from "@/store/useFinancial";
-import anime from "animejs";
-import React, { useEffect, useState } from "react";
+import { useNav } from "@/store/useNav";
+import React, { useEffect } from "react";
 
 function ClientPage({
   data: { budgetTypes, recents, currentExpenses, currentIncomes },
@@ -20,6 +20,7 @@ function ClientPage({
     currentIncomes: IncomeType[] | undefined;
   };
 }) {
+  const { goTo } = useNav();
   useEffect(() => {
     useFinancial.setState({
       budgets: budgetTypes,
@@ -27,7 +28,7 @@ function ClientPage({
       currentExpenses: currentExpenses,
       currentIncomes: currentIncomes,
     });
-  }, [budgetTypes, recents]);
+  }, [budgetTypes, recents, currentIncomes, currentExpenses]);
 
   useEffect(() => {
     document.addEventListener("gesturestart", function (e) {
@@ -46,7 +47,13 @@ function ClientPage({
     });
   });
 
-  return null;
+  return (
+    <div
+      className={`anime-page-switcher fixed bottom-0 left-0 z-[999] grid h-0 w-screen place-content-center bg-black text-2xl md:text-5xl`}
+    >
+      <span>{goTo}</span>
+    </div>
+  );
 }
 
 export default ClientPage;

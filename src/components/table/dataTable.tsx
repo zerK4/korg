@@ -26,6 +26,8 @@ import { DataTablePagination } from "./dataTablePagination";
 import { SearchInput } from "../ui/input";
 import { FilterCalendar } from "./filterCalendar";
 import FilterSelectMonth from "./filterSelectMonth";
+import { useSearchParams } from "next/navigation";
+import moment from "moment";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,6 +40,8 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const searchParams = useSearchParams();
+  const filteredDate = searchParams.get("date");
 
   const tableRef = useRef(null);
   const table = useReactTable({
@@ -65,23 +69,32 @@ export function DataTable<TData, TValue>({
     });
   }, []);
 
+  useEffect(() => {
+    if (filteredDate) {
+      const date = moment(filteredDate).unix();
+      const colDate = table.getColumn("date");
+    }
+  }, [filteredDate]);
+
+  //TODO: Rethink filtering here.
+
   return (
     <div
       ref={tableRef}
-      className='rounded-xl border overflow-hidden opacity-0 scale-0 translate-y-40'
+      className="translate-y-40 scale-0 overflow-hidden rounded-xl border opacity-0"
     >
-      <div className='border-b flex justify-between items-center  p-2'>
-        <div className='flex items-center'>
+      <div className="flex items-center justify-between border-b  p-2">
+        <div className="flex items-center">
           <SearchInput
-            placeholder='Filtreaza dupa nume'
+            placeholder="Filtreaza dupa nume"
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
-            className='max-w-sm'
+            className="max-w-sm"
           />
         </div>
-        <div className='flex gap-2 w-fit'>
+        <div className="flex w-fit gap-2">
           <FilterSelectMonth />
           <FilterCalendar />
         </div>
@@ -89,15 +102,15 @@ export function DataTable<TData, TValue>({
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className='hover:bg-none'>
+            <TableRow key={headerGroup.id} className="hover:bg-none">
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className='p-4'>
+                  <TableHead key={header.id} className="p-4">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 );
@@ -114,7 +127,7 @@ export function DataTable<TData, TValue>({
                 className={`${row.getIsSelected() && "bg-accent/30"}`}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className='h-16 px-4'>
+                  <TableCell key={cell.id} className="h-16 px-4">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -122,14 +135,14 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className='h-24 text-center'>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
                 No results.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-      <div className='border-t p-2'>
+      <div className="border-t p-2">
         <DataTablePagination table={table} />
       </div>
     </div>
