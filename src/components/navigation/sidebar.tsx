@@ -7,11 +7,15 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { navMenu } from "@/lib/navigation";
+import { useNav } from "@/store/useNav";
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { switchPage } = useNav();
+  const router = useRouter();
+
   return (
     <div className='fixed top-0 left-0 h-[100dvh] w-20 border-r md:flex flex-col justify-center z-50 hidden'>
       <div>asd</div>
@@ -20,7 +24,18 @@ export function Sidebar() {
         {navMenu.map((item, i) => (
           <Tooltip key={i} delayDuration={0}>
             <TooltipTrigger asChild>
-              <Link key={i} href={item.href}>
+              <Link
+                key={i}
+                href={item.href}
+                onClick={(e) =>
+                  switchPage({
+                    e,
+                    router,
+                    pageName: item.name,
+                    href: item.href,
+                  })
+                }
+              >
                 <Button
                   className={`h-14 w-14 relative ${
                     pathname === item.href

@@ -37,39 +37,41 @@ async function page() {
   const totalExpensesPerCategory = await getCategoriesExpenses({
     expenses: currentExpenses as any,
   });
-  console.log(totalExpensesPerCategory, "the expenses");
 
-  const totalBudgetTypes = budgetTypes.reduce((acc, item) => {
-    const existingItemIndex = acc.findIndex(
-      (accItem) => accItem.name === item.name
-    );
-    if (existingItemIndex === -1) {
-      acc.push({
-        name: item.name,
-        amount: Number(item.amount),
-      });
-    } else {
-      acc[existingItemIndex].amount += Number(item.amount);
-    }
-    return acc;
-  }, [] as { name: string; amount: number }[]);
+  const totalBudgetTypes = budgetTypes.reduce(
+    (acc, item) => {
+      const existingItemIndex = acc.findIndex(
+        (accItem) => accItem.name === item.name,
+      );
+      if (existingItemIndex === -1) {
+        acc.push({
+          name: item.name,
+          amount: Number(item.amount),
+        });
+      } else {
+        acc[existingItemIndex].amount += Number(item.amount);
+      }
+      return acc;
+    },
+    [] as { name: string; amount: number }[],
+  );
 
   const { sum: thisMonthIncomeSum, data: incomeData } = getSumOfCurrentMonth(
     currentIncomes,
-    new Date().getMonth() + 1
+    new Date().getMonth() + 1,
   );
 
   const { sum: thisMonthExpenseSum, data: expenseData } = getSumOfCurrentMonth(
     currentExpenses,
-    new Date().getMonth() + 1
+    new Date().getMonth() + 1,
   );
 
   const percentageIncome = getStatisticsOverMonths(currentIncomes);
   const percentageExpense = getStatisticsOverMonths(currentExpenses);
 
   return (
-    <div className='p-2 h-fit overflow-y-hidden'>
-      <div className='flex flex-wrap gap-4'>
+    <div className="h-fit overflow-y-hidden p-2">
+      <div className="flex flex-wrap gap-4">
         <TotalsCard
           data={{
             totalBudgetTypes,
@@ -86,23 +88,23 @@ async function page() {
           }}
         />
         <SharedCard
-          type='bar'
-          finder='amount'
+          type="bar"
+          finder="amount"
           total={thisMonthExpenseSum}
           data={totalExpensesPerCategory as any}
-          name='Chelutieli Pe categorii luna curent'
+          name="Chelutieli Pe categorii luna curent"
         />
         <SharedCard
-          type='line'
+          type="line"
           total={thisMonthExpenseSum}
           data={expenseData as any}
-          name='Chelutieli luna curenta'
+          name="Chelutieli luna curenta"
         />
         <SharedCard
-          type='line'
+          type="line"
           total={thisMonthIncomeSum}
           data={incomeData as any}
-          name='Venituri luna curenta'
+          name="Venituri luna curenta"
         />
       </div>
     </div>

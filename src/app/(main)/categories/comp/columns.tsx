@@ -1,5 +1,6 @@
 "use client";
 
+import { RenderExpenseAmount } from "@/components/filteredAmount";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -140,19 +141,3 @@ export const columns: ColumnDef<ICategoryExtended>[] = [
     },
   },
 ];
-
-export const RenderExpenseAmount = ({ data }: { data: ExpenseType[] }) => {
-  const { filterMonth, filterDate } = useFinancial();
-  const [amount, setAmount] = useState<any>(0);
-
-  useEffect(() => {
-    const { data: expenseData, sum } = getSumOfCurrentMonth(
-      data,
-      filterMonth,
-      filterDate?.getDate()
-    );
-    setAmount(sum);
-    console.log(filterMonth, filterDate?.getDate(), "the month and day");
-  }, [data, filterMonth, filterDate]);
-  return <div>{amount}</div>;
-};

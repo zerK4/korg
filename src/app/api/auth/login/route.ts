@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         message: "Coolio dudre",
         data,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);

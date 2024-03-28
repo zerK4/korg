@@ -5,7 +5,7 @@ import { DayProps } from "react-day-picker";
 import { TooltipContent } from "../ui/tooltip";
 import { useEffect, useRef } from "react";
 import anime from "animejs";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import Link from "next/link";
 
 export const RenderCoolDot = ({
   data,
@@ -18,6 +18,8 @@ export const RenderCoolDot = ({
 }) => {
   if (!data) return null;
 
+  const income = (data[0] as IncomeType)?.type ? true : false;
+
   return (
     <span>
       {data?.map((x, i) => {
@@ -26,15 +28,19 @@ export const RenderCoolDot = ({
           new Date(x.date as number).toLocaleDateString()
         ) {
           return (
-            <span
+            <Link
+              href={`/${
+                income ? "incomes" : "expenses"
+              }?date=${day.date.toLocaleDateString()}`}
               key={i}
-              className='absolute h-3 bottom-0 left-0 grid place-content-center w-full'
             >
-              <DotEl amount={x.amount} color={color} />
-              <TooltipContent className='p-4 text-foreground/80 rounded-xl'>
-                {x.name}
-              </TooltipContent>
-            </span>
+              <span className='absolute h-3 bottom-0 left-0 grid place-content-center w-full'>
+                <DotEl amount={x.amount} color={color} />
+                <TooltipContent className='p-4 text-foreground/80 rounded-xl'>
+                  {x.name}
+                </TooltipContent>
+              </span>
+            </Link>
           );
         }
       })}
