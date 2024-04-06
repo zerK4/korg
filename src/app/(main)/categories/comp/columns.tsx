@@ -13,11 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ExpenseType } from "@/db/schema";
 import { CategoryType } from "@/db/schema/categories";
-import { getSumOfCurrentMonth } from "@/lib/utils";
-import { useFinancial } from "@/store/useFinancial";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { useEffect, useState } from "react";
 
 export interface ICategoryExtended extends CategoryType {
   expenses: ExpenseType[];
@@ -67,7 +64,7 @@ export const columns: ColumnDef<ICategoryExtended>[] = [
     cell: ({ row }) => {
       return (
         <div className='w-full flex justify-center'>
-          <span className=''>{row.original.expenses.length}</span>
+          <span className=''>{row.original?.expenses?.length}</span>
         </div>
       );
     },

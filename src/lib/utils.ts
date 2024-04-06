@@ -39,7 +39,7 @@ export function generateStrongToken(length: number = 64): string {
 }
 
 export function calculatePercentageChange(
-  data: any[],
+  data: any[]
 ): { change: number | null; direction: string } | null {
   if (data.length < 2) {
     return null; // Need at least two data points for percentage change
@@ -68,10 +68,10 @@ export const getTodayMonthNumber = () => {
 export function getSumOfCurrentMonth(
   data: IncomeType[] | ExpenseType[],
   monthNumber: number,
-  monthDay: number | null = null,
+  monthDay: number | null = null
 ) {
   const monthData = data
-    .map((income) => {
+    ?.map((income) => {
       if (new Date(income.date as number).getMonth() + 1 === monthNumber) {
         if (monthDay !== null) {
           if (new Date(income.date as number).getDate() === monthDay) {
@@ -84,7 +84,7 @@ export function getSumOfCurrentMonth(
     })
     .filter((income) => income !== undefined);
 
-  const sum = monthData.reduce((acc, curr) => acc + curr!.amount, 0);
+  const sum = monthData?.reduce((acc, curr) => acc + curr!.amount, 0);
 
   return {
     sum: sum,
@@ -97,19 +97,19 @@ export const getStatisticsOverMonths = (data: IncomeType[] | ExpenseType[]) => {
   const lastMonthNumber = todayMonthNumber - 1;
 
   const currentMonthData = data.filter(
-    (item) => new Date(item.date as number).getMonth() === todayMonthNumber,
+    (item) => new Date(item.date as number).getMonth() === todayMonthNumber
   );
   const lastMonthData = data.filter(
-    (item) => new Date(item.date as number).getMonth() === lastMonthNumber,
+    (item) => new Date(item.date as number).getMonth() === lastMonthNumber
   );
 
   const sumOfCurrentMonth = currentMonthData.reduce(
     (acc, curr) => acc + curr.amount,
-    0,
+    0
   );
   const sumOfLastMonth = lastMonthData.reduce(
     (acc, curr) => acc + curr.amount,
-    0,
+    0
   );
 
   const change = sumOfCurrentMonth - sumOfLastMonth;
@@ -122,8 +122,8 @@ export const getStatisticsOverMonths = (data: IncomeType[] | ExpenseType[]) => {
       sumOfCurrentMonth > sumOfLastMonth
         ? "up"
         : sumOfCurrentMonth < sumOfLastMonth
-          ? "down"
-          : "same";
+        ? "down"
+        : "same";
   }
 
   return {
@@ -147,7 +147,7 @@ export async function getCategoriesExpenses({
       const expenseMonth = new Date(expense.date as number).getMonth() + 1;
       if (expenseMonth === month) {
         const categoryIndex = data.findIndex(
-          (x) => x.name === expense.category?.name,
+          (x) => x.name === expense.category?.name
         );
 
         if (categoryIndex !== -1) {
