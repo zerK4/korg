@@ -27,14 +27,14 @@ export function Sidebar() {
               <Link
                 key={i}
                 href={item.href}
-                onClick={(e) =>
-                  switchPage({
-                    e,
-                    router,
-                    pageName: item.name,
-                    href: item.href,
-                  })
-                }
+                // onClick={(e) =>
+                //   switchPage({
+                //     e,
+                //     router,
+                //     pageName: item.name,
+                //     href: item.href,
+                //   })
+                // }
               >
                 <Button
                   className={`h-14 w-14 relative ${
