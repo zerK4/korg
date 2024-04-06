@@ -26,21 +26,21 @@ export const MobileSidebar = () => {
   const router = useRouter();
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-between bg-background px-10 md:hidden">
-      <div className="flex h-full w-full items-center justify-between gap-4">
+    <div className='fixed bottom-0 left-0 z-50 flex h-16 w-full items-center justify-between bg-background px-10 md:hidden'>
+      <div className='flex h-full w-full items-center justify-between gap-4'>
         {navMenu.map((item, i) => (
           <Fragment key={i}>
             <Link
               key={i}
               href={item.href}
-              onClick={(e) =>
-                switchPage({
-                  e,
-                  router,
-                  pageName: item.name,
-                  href: item.href,
-                })
-              }
+              // onClick={(e) =>
+              //   switchPage({
+              //     e,
+              //     router,
+              //     pageName: item.name,
+              //     href: item.href,
+              //   })
+              // }
             >
               <Button
                 className={`relative h-10 w-10 ${
@@ -66,19 +66,19 @@ const MobileNavDrawer = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className="h-14 w-14 rounded-full" size={"icon"}>
+        <Button className='h-14 w-14 rounded-full' size={"icon"}>
           <Plus />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-fit px-4 pb-10">
+      <DrawerContent className='h-fit px-4 pb-10'>
         <DrawerHeader>
-          <DrawerTitle className="text-2xl">Adauga</DrawerTitle>
+          <DrawerTitle className='text-2xl'>Adauga</DrawerTitle>
         </DrawerHeader>
-        <div className="flex flex-col gap-2">
+        <div className='flex flex-col gap-2'>
           <NewCategory>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
-              className="flex h-14 items-center justify-normal gap-4 rounded-xl"
+              className='flex h-14 items-center justify-normal gap-4 rounded-xl'
               variant={"ghost"}
             >
               <span>
@@ -90,7 +90,7 @@ const MobileNavDrawer = () => {
           <NewIncome>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
-              className="flex h-14 items-center justify-normal gap-4 rounded-xl"
+              className='flex h-14 items-center justify-normal gap-4 rounded-xl'
               variant={"ghost"}
             >
               <span>
@@ -102,7 +102,7 @@ const MobileNavDrawer = () => {
           <NewExpense>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
-              className="flex h-14 items-center justify-normal gap-4 rounded-xl"
+              className='flex h-14 items-center justify-normal gap-4 rounded-xl'
               variant={"ghost"}
             >
               <span>
@@ -114,7 +114,7 @@ const MobileNavDrawer = () => {
           <NewBudgetType>
             <Button
               onClick={() => useCommands.setState({ openCategory: true })}
-              className="flex h-14 items-center justify-normal gap-4 rounded-xl"
+              className='flex h-14 items-center justify-normal gap-4 rounded-xl'
               variant={"ghost"}
             >
               <span>
