@@ -1,7 +1,18 @@
-import { newCategory } from "@/app/actions/categoryActions";
+import getSession from "@/app/actions/authActions";
+import { getAllCategories, newCategory } from "@/app/actions/categoryActions";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+async function GET() {
+  const { session } = await getSession();
+
+  if (!session) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  return NextResponse.json(await getAllCategories());
+}
+
+async function POST(req: Request) {
   const body = await req.json();
 
   if (!body) return NextResponse.json({ message: "No body" }, { status: 400 });
@@ -17,6 +28,8 @@ export async function POST(req: Request) {
   );
 }
 
-export async function OPTIONS(req: Request) {
+async function OPTIONS(req: Request) {
   return NextResponse.json({}, { status: 200 });
 }
+
+export { GET, POST, OPTIONS };

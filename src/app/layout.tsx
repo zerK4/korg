@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/providers/themeProvider";
 import { ModeToggle } from "@/components/modeToggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import QueryProvider from "@/components/providers/queryProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,7 +33,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <QueryProvider>
+              {children}
+              <ReactQueryDevtools initialIsOpen={true} />
+            </QueryProvider>
+          </TooltipProvider>
           <ModeToggle />
           <Toaster closeButton position='top-center' richColors />
         </ThemeProvider>

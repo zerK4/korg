@@ -11,7 +11,7 @@ import { and, eq } from "drizzle-orm";
 import { recentAdded } from "@/db/schema";
 
 export async function createBudgetType(
-  values: z.infer<typeof budgetTypeSchema>,
+  values: z.infer<typeof budgetTypeSchema>
 ) {
   try {
     const { user } = await getSession();
@@ -34,13 +34,19 @@ export async function createBudgetType(
       thingId: newBudget[0].id,
     });
 
-    revalidatePath("/income");
-
-    return newBudget;
+    return {
+      data: newBudget,
+      message: "Budget type created successfully",
+      status: 200,
+    };
   } catch (error) {
     console.log(error);
 
-    throw error;
+    return {
+      data: [],
+      message: "An error occured when creating a new budget",
+      status: 500,
+    };
   }
 }
 
